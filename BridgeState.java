@@ -26,11 +26,8 @@ public class BridgeState implements State
 	 */
 	public BridgeState(Set<Person> westBank, Set<Person> eastBank, TorchDirection direction)
 	{
-		// Set up the states west and east banks
 		this.westBank = RunProblem.sortListByTime(westBank);
 		this.eastBank = RunProblem.sortListByTime(eastBank);
-		
-		// Set the location of the torch
 		this.torchLocation = direction;
 	}
 
@@ -67,21 +64,15 @@ public class BridgeState implements State
 
 		people.forEach(person -> 
 		{
-			// Create a LinkedHashSet that stores the Person objects of people crossing the bridge
 			LinkedHashSet<Person> peopleCrossing = new LinkedHashSet<>();
 			
 			if(!peopleCrossing.contains(person))
 			{
-				// Add the Person object to the peopleCrossing Set if they're not in it
 				peopleCrossing.add(person);
-				
-				// Generate the action
 				BridgeAction action = new BridgeAction(peopleCrossing, switchTorchLocation(this.getTorchLocation()));
-				
-				// Get the next state
 				BridgeState newState = this.nextState(action);
 				
-				// Remove duplicate successor states to reduce time-complexity, increase efficiency and use less space
+				// Remove duplicate successor states
 				for(int i=0; i<successors.size(); i++)
 					if(successors.get(i).state.equals(newState))
 						successors.remove(i);
@@ -91,7 +82,6 @@ public class BridgeState implements State
 			
 			people.forEach(person2 -> 
 			{
-				// Clone the peopleCrossing Set
 				LinkedHashSet<Person> peopleCrossing2 = (LinkedHashSet<Person>) peopleCrossing.clone();
 				
 				if(!peopleCrossing2.contains(person2))
@@ -107,12 +97,10 @@ public class BridgeState implements State
 					successors.add(new ActionStatePair(action2, newState2));
 				}
 				
-				// If the advanced problem is running
 				if(RunProblem.getAdvancedStatus())
 				{
 					people.forEach(person3 -> 
 					{
-						// Clone the peopleCrossing2 Set
 						LinkedHashSet<Person> peopleCrossing3 = (LinkedHashSet<Person>) peopleCrossing2.clone();
 						
 						if(!peopleCrossing3.contains(person3))
@@ -155,21 +143,14 @@ public class BridgeState implements State
 	@SuppressWarnings("unchecked")
 	public BridgeState nextState(BridgeAction action)
 	{
-		// Get the Set of people crossing the bridge in the action
 		LinkedHashSet<Person> people = action.getPeople();
 		
-		// Clone the eastern/western banks
 		LinkedHashSet<Person> westSide = (LinkedHashSet<Person>) this.westBank.clone();
 		LinkedHashSet<Person> eastSide = (LinkedHashSet<Person>) this.eastBank.clone();
 		
 		LinkedHashSet<Person> src = new LinkedHashSet<>();
 		LinkedHashSet<Person> dest = new LinkedHashSet<>();
 		
-		/*
-		 * Switch the torch location to populate the src and dest LinkedHashSets
-		 * If the torch is on the EAST then the source is the eastern bank and the
-		 * destination is the western bank and vice-versa
-		 */
 		switch(getTorchLocation())
 		{
 			case EAST: src = eastSide; dest = westSide; break;
