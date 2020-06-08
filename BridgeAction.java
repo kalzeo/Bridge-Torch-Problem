@@ -11,10 +11,7 @@ import cm3038.search.*;
 
 public class BridgeAction extends Action
 {
-	// The set of people that are being moved on the bridge
 	public LinkedHashSet<Person> people;
-	
-	// The direction of the torch 
 	private TorchDirection direction;
 	
 	/**
@@ -28,8 +25,6 @@ public class BridgeAction extends Action
 	{
 		this.people = RunProblem.sortListByTime(people);
 		this.direction = direction;
-		
-		// Calculate the overall cost of the action
 		this.findCost();
 	}
 	
