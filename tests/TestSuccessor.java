@@ -24,19 +24,15 @@ public class TestSuccessor
     {
 		Bridge.setCapacity(2);
 		
-		// Set up the initial and goal states as LinkedHashSets
 		Set<Person> westBank = new LinkedHashSet<Person>();
 		Set<Person> eastBank = new LinkedHashSet<Person>();
 		
-		// Add people to the western bank
 		westBank.add(new Person(1, "Adam"));   westBank.add(new Person(2, "Ben"));
 		westBank.add(new Person(5, "Claire")); westBank.add(new Person(8, "Doris"));
 
-		// Create the initial BridgeState and print it out
 		State initialState = new BridgeState(westBank, eastBank, TorchDirection.WEST);
 		System.out.println("Initial State: " + initialState.toString());
 		
-		// Print out the successor of the initial state and the size
 		System.out.println("\nSuccessor: \n" + initialState.successor().toString());
 		System.out.println("\nSuccessor Size: " + initialState.successor().size());
     }
