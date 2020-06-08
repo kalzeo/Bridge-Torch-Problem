@@ -16,46 +16,31 @@ public class RunProblem
 	// Create a Comparator object that will compare the crossing times of a Person object
 	public static Comparator<Person> comparator = Comparator.comparing( Person::getTime );
 	
-	// Set up the eastern and western banks as LinkedHashSets
 	private static LinkedHashSet<Person> westBank = new LinkedHashSet<Person>();
 	private static LinkedHashSet<Person> eastBank = new LinkedHashSet<Person>();
-	
-	// Default value of the advanced status, this will be modified when either of the problems are configured
 	private static boolean advancedStatus = false;
 	
 	public static void main(String[] args)
     {
-		/*
-		 *  Switch the menu choice
-		 *  
-		 *  Configure the basic problem if the choice is 1 or configure
-		 *  the advanced problem if the choice is 2
-		 */
 		switch(createMenu())
 		{
 			case 1: configureBasicProblem(); break;
 			case 2: configureAdvancedProblem(); break;
 		}
 		
-		// Set up the initial and goal state
 		BridgeState initialState = new BridgeState(westBank, eastBank, TorchDirection.WEST);
 		BridgeState goalState = new BridgeState(eastBank, westBank, TorchDirection.EAST);
 		
-		// Print out the initial and goal states
 		System.out.println(String.format("\nInit: %s", initialState.toString()));
 		System.out.println(String.format("Goal: %s\n", goalState.toString()));
 		
-		// Create an A* problem to solve the solution
 		Astar problem = new Astar(initialState, goalState);
 		
-		// Carry out the search and get the returned result of the Path object
 		Path path = problem.search();
 		
-		// If the goal state cannot be reached then there is no solution
 		if (path == null)							
 			System.out.println("No solution.");
 		
-		// If there's a path to the goal state then print the path with the number of nodes visited / overall cost.
 		else	
 		{
 			System.out.println(String.format("Nodes Explored: %s\nSolution Cost: %s\n\nSolution:", problem.nodeVisited, path.cost));
@@ -71,13 +56,11 @@ public class RunProblem
 	 */
 	private static void configureBasicProblem()
 	{
-		// Add people to the western bank
 		westBank.add(new Person(1, "Adam"));
 		westBank.add(new Person(2, "Ben")); 
 		westBank.add(new Person(5, "Claire"));
 		westBank.add(new Person(8, "Doris"));
 		
-		// Set the capacity of the bridge to 2
 		Bridge.setCapacity(2);
 	}
 	
@@ -92,14 +75,11 @@ public class RunProblem
 		// Configure the basic problem to set up the western bank
 		configureBasicProblem();
 		
-		// Set the advanced status to true
 		setAdvancedStatus(true);
 		
-		// Add people to the eastern bank
 		eastBank.add(new Person(9, "Edward"));
 		eastBank.add(new Person(10, "Fiona"));
 		
-		// Set the capacity of the bridge to 3
 		Bridge.setCapacity(3);
 	}
 	
@@ -108,7 +88,6 @@ public class RunProblem
 	 * A choice to either complete the basic or advanced problem can be carried out.
 	 * @return The menu choice
 	 */
-	@SuppressWarnings("resource")
 	private static int createMenu()
 	{
         Scanner input = new Scanner(System.in);
@@ -153,13 +132,8 @@ public class RunProblem
 	 */
 	public static LinkedHashSet<Person> sortListByTime(Set<Person> people)
 	{
-		// Create a TreeSet to sort the people by their time
 		TreeSet<Person> sorted = new TreeSet<>(comparator);
-		
-		// Add the people to the TreeSet
 		sorted.addAll(people);
-		
-		// Return the sorted LinkedHashSet
 		return new LinkedHashSet<>(sorted);
 		
 	}
