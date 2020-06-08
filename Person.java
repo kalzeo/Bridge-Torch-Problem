@@ -7,7 +7,6 @@ package btp;
 
 public class Person 
 {
-	// Instance variables to store the name and time of a Person
 	private String name;
 	private int time;
 	
